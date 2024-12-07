@@ -1,77 +1,74 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import DeleteProducts from "./components/DeleteProducts";
 import UpdateProduct from "./components/UpdateProduct";
 import ProductAdd from "./components/ProductAdd";
 import ProductsList from "./components/ProductsList";
+import { FiPlusCircle, FiEdit, FiTrash2 } from "react-icons/fi";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
   const [currentView, setCurrentView] = useState("Add Product");
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupMessage, setPopupMessage] = useState("");
-
-  const handleAddProduct = (newProduct) => {
-    const existingProduct = products.find(
-      (p) =>
-        p.name === newProduct.name && p.description === newProduct.description
-    );
-
-    if (existingProduct) {
-      setPopupMessage(`${newProduct.name} is already in the list!`);
-      setShowPopup(true);
-      setTimeout(() => {
-        setShowPopup(false);
-        setPopupMessage("");
-      }, 2000);
-    } else {
-      setProducts([...products, { ...newProduct, id: Date.now() }]);
-    }
-  };
-
-  const handleDelete = (productId) => {
-    setProducts(products.filter((p) => p.id !== productId));
-  };
 
   const renderContent = () => {
     switch (currentView) {
       case "Product List":
-        return <ProductsList products={products} />;
+        return <ProductsList />;
       case "Delete Product":
-        return <DeleteProducts products={products} onDelete={handleDelete} />;
+        return <DeleteProducts />;
       case "Update Product":
-        return <UpdateProduct products={products} />;
+        return <UpdateProduct />;
       case "Add Product":
       default:
-        return <ProductAdd onSubmit={handleAddProduct} />;
+        return <ProductAdd />;
     }
   };
 
+  const navButtons = [
+    {
+      name: "Add Product",
+      icon: <FiPlusCircle className="text-xl" />,
+      color: "bg-green-500 hover:bg-green-600"
+    },
+    {
+      name: "Update Product",
+      icon: <FiEdit className="text-xl" />,
+      color: "bg-blue-500 hover:bg-blue-600"
+    },
+    {
+      name: "Delete Product",
+      icon: <FiTrash2 className="text-xl" />,
+      color: "bg-red-500 hover:bg-red-600"
+    }
+  ];
+
   return (
-    <div>
-      <div className="my-4">
-        <div className="flex gap-3">
-          <button onClick={() => setCurrentView("Add Product")}>
-            <h2 className="font-bold">Add Product</h2>
-          </button>
-          <button onClick={() => setCurrentView("Update Product")}>
-            <h2 className="font-bold">Update Product</h2>
-          </button>
-          {/* <button onClick={() => setCurrentView("Product List")}>
-            <h2 className="font-bold">Product List</h2>
-          </button> */}
-          <button onClick={() => setCurrentView("Delete Product")}>
-            <h2 className="font-bold">Delete Product</h2>
-          </button>
+    <div className="min-h-screen bg-gray-100 p-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">Product Management</h1>
+          
+          <div className="flex flex-wrap gap-4 mb-6">
+            {navButtons.map((button) => (
+              <button
+                key={button.name}
+                onClick={() => setCurrentView(button.name)}
+                className={`${button.color} ${
+                  currentView === button.name 
+                    ? "ring-4 ring-opacity-50" 
+                    : ""
+                } text-white px-6 py-3 rounded-lg transition-all duration-200 ease-in-out
+                flex items-center gap-2 shadow-md hover:shadow-lg transform hover:-translate-y-0.5`}
+              >
+                {button.icon}
+                <span className="font-semibold">{button.name}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="bg-gray-50 rounded-xl p-6">
+            {renderContent()}
+          </div>
         </div>
       </div>
-      <div className="update-state bg-white min-h-screen rounded-lg">
-        <div className="bg-white p-8 rounded-lg">{renderContent()}</div>
-      </div>
-      {showPopup && (
-        <div className="fixed bottom-4 right-10 bg-green-500 text-white text-xl p-4 px-10 rounded-lg shadow-lg transition-opacity duration-300 ease-in-out opacity-100">
-          {popupMessage}
-        </div>
-      )}
     </div>
   );
 };

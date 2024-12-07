@@ -14,12 +14,12 @@ const Orders = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/order/get?status=pending`,{
+        const response = await axios.get(`${backendUrl}/api/api/order/get?status=pending`,{
           headers: {
               'Authorization': `Bearer ${accessToken}`
           }
       });
-        setItems(response.data); // Set fetched data into state
+        setItems(response.data); 
         console.log(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,7 +27,7 @@ const Orders = () => {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this runs only once
+  }, []);
 
   const handleConform = (itemId) => {
     console.log(itemId);
@@ -35,8 +35,8 @@ const Orders = () => {
     const conformOrder = async () => {
       try {
         const response = await axios.put(
-          `${backendUrl}/api/order/update/${itemId}`, 
-          {}, // Add an empty object here as the request body if you don't have any data to send in the body
+          `${backendUrl}/api/api/order/update/${itemId}`, 
+          {},
           {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem("accessToken")}`,
@@ -68,7 +68,7 @@ const Orders = () => {
     }
   };
 
-  // Filtering items based on search input
+  
   const filteredItems = items.filter((item) =>
     item.product.title.toLowerCase().includes(searchInput.toLowerCase())
   );

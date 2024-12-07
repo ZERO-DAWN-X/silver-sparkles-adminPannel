@@ -13,7 +13,7 @@ const Sold = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/order/get?status=sold`,{
+        const response = await axios.get(`${backendUrl}/api/api/order/get?status=sold`,{
           headers: {
               'Authorization': `Bearer ${accessToken}`
           }
@@ -41,7 +41,7 @@ const Sold = () => {
     }
   };
 
-  // Filtering items based on search input
+
   const filteredItems = items.filter((item) =>
     item.product.title.toLowerCase().includes(searchInput.toLowerCase())
   );

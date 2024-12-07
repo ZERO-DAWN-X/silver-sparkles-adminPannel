@@ -11,7 +11,7 @@ const OutOfStock = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${backendUrl}/api/product/filter?stock=0`,{
+        const response = await axios.get(`${backendUrl}/api/api/product/filter?stock=0`,{
           headers: {
               'Authorization': `Bearer ${accessToken}`
           }
@@ -37,7 +37,7 @@ const OutOfStock = () => {
   };
 
   const getImageUrl = (item) => {
-    // Assuming item.images is an array of objects with 'url' property
+   
     console.log(JSON.parse(item.images))
     const images = JSON.parse(item.images);
     return images[0].url;

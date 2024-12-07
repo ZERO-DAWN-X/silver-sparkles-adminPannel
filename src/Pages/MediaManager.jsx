@@ -87,7 +87,7 @@ function MediaManager() {
 
   const fetchMediaData = async () => {
     try {
-      const response = await axios.get(`${backendUrl}/api/media/all`);
+      const response = await axios.get(`${backendUrl}/api/api/media/all`);
       console.log("Media data", response.data);
       setMediaEntries(response.data);
     } catch (error) {
@@ -205,7 +205,7 @@ function MediaManager() {
     }
 
     try {
-      const response = await axios.post(`${backendUrl}/api/media/add`, formData, {
+      const response = await axios.post(`${backendUrl}/api/api/media/add`, formData, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -248,7 +248,7 @@ function MediaManager() {
 
   const handleDeleteMedia = async (id) => {
     try {
-      await axios.delete(`${backendUrl}/api/media/delete/${id}`, {
+      await axios.delete(`${backendUrl}/api/api/media/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
